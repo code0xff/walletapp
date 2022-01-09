@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import './App.css'
 
 function App() {
+  const [address, setAddress] = useState('')
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button className="Button" onClick={() => {connect(setAddress)}}>connect</button>
+      <h2>address: {address}</h2>
     </div>
-  );
+  )
 }
 
-export default App;
+const connect = async function(setAddress) {
+  const ethereum = window.ethereum;
+  if (ethereum) {
+    const accounts = await ethereum.request({method: 'eth_requestAccounts'})
+    setAddress(accounts[0])
+  } else {
+    console.error('no wallet')
+  }
+}
+
+export default App
